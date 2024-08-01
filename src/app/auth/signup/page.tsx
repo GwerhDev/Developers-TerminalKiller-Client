@@ -4,23 +4,23 @@ import Image from "next/image";
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
 import { Metadata } from "next";
 import DefaultLayout from "@/components/Layouts/DefaultLaout";
-import Signin from "@/components/Auth/Signin";
+import Signup from "@/components/Auth/Signup";
 
 export const metadata: Metadata = {
   title: "Next.js Login Page | NextAdmin - Next.js Dashboard Kit",
   description: "This is Next.js Login Page NextAdmin Dashboard Kit",
 };
 
-const SignIn: React.FC = () => {
+const SignUp: React.FC = () => {
   return (
     <DefaultLayout>
-      <Breadcrumb pageName="Sign In" />
+      <Breadcrumb pageName="Sign Up" />
 
       <div className="rounded-[10px] bg-white shadow-1 dark:bg-gray-dark dark:shadow-card">
         <div className="flex flex-wrap items-center">
           <div className="w-full xl:w-1/2">
             <div className="w-full p-4 sm:p-12.5 xl:p-15">
-              <Signin />
+              <Signup />
             </div>
           </div>
 
@@ -43,7 +43,7 @@ const SignIn: React.FC = () => {
                 />
               </Link>
               <p className="mb-3 text-xl font-medium text-dark dark:text-white">
-                Sign in to your account
+                Login in to your account
               </p>
 
               <h1 className="mb-4 text-2xl font-bold text-dark dark:text-white sm:text-heading-3">
@@ -72,4 +72,4 @@ const SignIn: React.FC = () => {
   );
 };
 
-export default SignIn;
+export default SignUp;

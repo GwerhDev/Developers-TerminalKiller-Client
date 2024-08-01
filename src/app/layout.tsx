@@ -1,30 +1,28 @@
-"use client";
 import "jsvectormap/dist/css/jsvectormap.css";
 import "flatpickr/dist/flatpickr.min.css";
 import "@/css/satoshi.css";
 import "@/css/style.css";
-import React, { useEffect, useState } from "react";
-import Loader from "@/components/common/Loader";
+import React from "react";
+import connectDB from "./api/integrations/mongodb";
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [loading, setLoading] = useState<boolean>(true);
-
-  // const pathname = usePathname();
-
-  useEffect(() => {
-    setTimeout(() => setLoading(false), 1000);
-  }, []);
-
-  return (
-    <html lang="en">
-      <body suppressHydrationWarning={true}>
-        {loading ? <Loader /> : children}
-      </body>
-    </html>
-  );
+  try {
+    console.log("Connecting to MongoDB...");
+    const response = await connectDB();
+    console.log(response);
+  } catch (error) {
+    console.error(error);
+  } finally {
+    return (
+      <html lang="en">
+        <body suppressHydrationWarning={true}>
+          {children}
+        </body>
+      </html>
+    );
+  };
 }
