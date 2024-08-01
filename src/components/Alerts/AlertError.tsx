@@ -1,6 +1,8 @@
 import React from "react";
 
-const AlertError = () => {
+const AlertError = (props: any) => {
+  const { error } = props;
+
   return (
     <>
       <div className="flex w-full rounded-[10px] border-l-6 border-red-light bg-red-light-5 px-7 py-8 dark:bg-[#1B1B24] dark:bg-opacity-30 md:p-9">
@@ -21,11 +23,11 @@ const AlertError = () => {
         </div>
         <div className="w-full">
           <h5 className="mb-4 font-bold leading-[22px] text-[#BC1C21]">
-            There were 1 errors with your submission
+            {error.title}
           </h5>
           <ul>
             <li className="text-[#CD5D5D]">
-              Lorem Ipsum is simply dummy text of the printing
+              {error.message}
             </li>
           </ul>
         </div>

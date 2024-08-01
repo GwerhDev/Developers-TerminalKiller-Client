@@ -1,11 +1,71 @@
 "use client";
 import React, { useState } from "react";
 import Link from "next/link";
+import { setUserToken } from "@/helpers/LocalStorage.functions";
+import { useRouter } from 'next/navigation';
+import AlertError from "../Alerts/AlertError";
 
-export default function SigninWithPassword() {
+export default function LoginWithPassword() {
+  const router = useRouter();
+  const [error, setError] = useState({
+    title: '',
+    message: '',
+    show: false
+  });
   const [data, setData] = useState({
+    email: "",
+    password: "",
     remember: false,
   });
+
+  function handleInput(e: any) {
+    switch (e.target.name) {
+      case "email":
+        return setData({ ...data, email: e.target.value });
+
+      case "password":
+        return setData({ ...data, password: e.target.value });
+
+      case "remember":
+        return setData({ ...data, remember: !data.remember });
+
+      default:
+        return;
+    }
+  }
+
+  async function handleSubmit(e: any) {
+    try {
+      e.preventDefault();
+
+      if (!data.email || !data.password) return setError({ title: 'Empty fields', message: 'Please, fill all the fields', show: true });
+
+      const formData = { email: data.email, password: data.password };
+
+      const response = await fetch('/api/controllers/login-inner', {
+        method: 'POST',
+        body: JSON.stringify(formData),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+
+      const userToken = await response.json();
+
+      console.log(userToken);
+
+      if (!userToken?.error) {
+        setUserToken(userToken);
+        router.push(`/dashboard`);
+        return;
+      }
+
+      return setError(userToken?.error);
+
+    } catch (error) {
+      console.error(error);
+    }
+  }
 
   return (
     <form>
@@ -19,6 +79,7 @@ export default function SigninWithPassword() {
         <div className="relative">
           <input
             type="email"
+            onInput={handleInput}
             placeholder="Enter your email"
             name="email"
             className="w-full rounded-lg border border-stroke bg-transparent py-[15px] pl-6 pr-11 font-medium text-dark outline-none focus:border-primary focus-visible:shadow-none dark:border-dark-3 dark:bg-dark-2 dark:text-white dark:focus:border-primary"
@@ -55,6 +116,7 @@ export default function SigninWithPassword() {
           <input
             type="password"
             name="password"
+            onInput={handleInput}
             placeholder="Enter your password"
             autoComplete="password"
             className="w-full rounded-lg border border-stroke bg-transparent py-[15px] pl-6 pr-11 font-medium text-dark outline-none focus:border-primary focus-visible:shadow-none dark:border-dark-3 dark:bg-dark-2 dark:text-white dark:focus:border-primary"
@@ -95,12 +157,12 @@ export default function SigninWithPassword() {
             type="checkbox"
             name="remember"
             id="remember"
+            onInput={handleInput}
             className="peer sr-only"
           />
           <span
-            className={`mr-2.5 inline-flex h-5.5 w-5.5 items-center justify-center rounded-md border border-stroke bg-white text-white text-opacity-0 peer-checked:border-primary peer-checked:bg-primary peer-checked:text-opacity-100 dark:border-stroke-dark dark:bg-white/5 ${
-              data.remember ? "bg-primary" : ""
-            }`}
+            className={`mr-2.5 inline-flex h-5.5 w-5.5 items-center justify-center rounded-md border border-stroke bg-white text-white text-opacity-0 peer-checked:border-primary peer-checked:bg-primary peer-checked:text-opacity-100 dark:border-stroke-dark dark:bg-white/5 ${data.remember ? "bg-primary" : ""
+              }`}
           >
             <svg
               width="10"
@@ -127,13 +189,20 @@ export default function SigninWithPassword() {
           Forgot Password?
         </Link>
       </div>
+      {
+        error.show &&
+        <div className="mb-4.5">
+          <AlertError error={error} />
+        </div>
+      }
 
       <div className="mb-4.5">
         <button
           type="submit"
+          onClick={handleSubmit}
           className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-lg bg-primary p-4 font-medium text-white transition hover:bg-opacity-90"
         >
-          Sign In
+          Log In
         </button>
       </div>
     </form>

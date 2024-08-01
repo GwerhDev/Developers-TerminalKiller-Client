@@ -2,7 +2,7 @@
 import Link from "next/link";
 import React from "react";
 import GoogleSigninButton from "../GoogleSigninButton";
-import SigninWithPassword from "../SigninWithPassword";
+import SignupWithPassword from "../SignupWithPassword";
 
 export default function Signup() {
   return (
@@ -18,14 +18,14 @@ export default function Signup() {
       </div>
 
       <div>
-        <SigninWithPassword />
+        <SignupWithPassword />
       </div>
 
       <div className="mt-6 text-center">
         <p>
-          Don’t have any account?{" "}
-          <Link href="/auth/signup" className="text-primary">
-            Sign Up
+          Do you have any account?{" "}
+          <Link href="/auth/login" className="text-primary">
+            Log In
           </Link>
         </p>
       </div>

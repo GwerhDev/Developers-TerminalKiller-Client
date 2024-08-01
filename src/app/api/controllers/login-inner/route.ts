@@ -11,11 +11,11 @@ export async function POST(request: NextRequest) {
 
     const user = await UserModel.findOne({ email: req.email });
 
-    if (!user) return new NextResponse(JSON.stringify({ error: message.login.notexistinguser }), {
+    if (!user) return new NextResponse(JSON.stringify({ error: { title: 'Error', message: message.login.notexistinguser } }), {
       status: 400
     });
 
-    if (user.status === consts.status.pending) return new NextResponse(JSON.stringify({ error: message.login.pending }), {
+    if (user.status === consts.status.pending) return new NextResponse(JSON.stringify({ error: { title: 'Error', message: message.login.pending } }), {
       status: 400
     });
 
@@ -32,18 +32,18 @@ export async function POST(request: NextRequest) {
         });
 
       } else {
-        return new NextResponse(JSON.stringify({ error: message.login.error }), {
+        return new NextResponse(JSON.stringify({ error: { title: 'Error', message: message.login.error } }), {
           status: 400
         });
       };
     };
 
-    return new NextResponse(JSON.stringify({ error: message.login.failure }), {
+    return new NextResponse(JSON.stringify({ error: { title: 'Error', message: message.login.failure } }), {
       status: 400
     });
 
   } catch (error) {
-    return new NextResponse(JSON.stringify({ error: message.signup.error }), {
+    return new NextResponse(JSON.stringify({ error: { title: 'Error', message: message.signup.error } }), {
       status: 500
     });
   }

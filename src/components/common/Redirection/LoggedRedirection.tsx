@@ -9,7 +9,7 @@ export const LoggedRedirection = () => {
 
   useEffect(() => {
     const token: string | null = getUserToken();
-    !token && router.push('/auth/login');
+    token && router.push('/');
   }, [router]);
 
   return <></>;

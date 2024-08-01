@@ -1,8 +1,8 @@
 "use client";
-import Link from "next/link";
 import React from "react";
+import Link from "next/link";
+import LoginWithPassword from "../LoginWithPassword";
 import GoogleSigninButton from "../GoogleSigninButton";
-import SigninWithPassword from "../SigninWithPassword";
 
 export default function Login() {
   return (
@@ -18,7 +18,7 @@ export default function Login() {
       </div>
 
       <div>
-        <SigninWithPassword />
+        <LoginWithPassword />
       </div>
 
       <div className="mt-6 text-center">
